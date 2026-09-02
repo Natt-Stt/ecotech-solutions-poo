@@ -21,3 +21,40 @@
    Atributos: id_registro (int), fecha (str), horas (float), descripcion (str).
    
    Responsabilidad: Registrar el tiempo exacto que un empleado dedica a un proyecto.
+
+# Diagrama UML Inicial
+```mermaid
+classDiagram
+    class Empleado {
+        -int id
+        +String nombre
+        +String correo
+        -float salario
+        +asignarDepartamento(depto)
+        +registrarHoras(fecha, horas)
+    }
+
+    class Departamento {
+        +int idDepto
+        +String nombre
+        +agregarEmpleado(emp)
+    }
+
+    class RegistroTiempo {
+        +int idRegistro
+        +String fecha
+        +float horas
+        +String descripcion
+        +validarHoras()
+    }
+
+    class Proyecto {
+        +int idProyecto
+        +String nombre
+        +float presupuesto
+    }
+
+    Departamento "1" o-- "0..*" Empleado : agrupa
+    Empleado "1" *-- "0..*" RegistroTiempo : posee
+    Empleado "0..*" -- "0..*" Proyecto : asignado_a
+```
