@@ -1,11 +1,9 @@
 # EcoTech Solutions
 
-Proyecto académico de Programación Orientada a Objetos Seguro.
+Proyecto académico de Programación Orientada a Objetos.
 
 ## Descripción
 
-Este repositorio contiene el análisis, diseño y documentación
-del sistema EcoTech Solutions.
+Este repositorio contiene el análisis, diseño y documentación del sistema EcoTech Solutions.
 
-El proyecto evolucionará posteriormente hacia una aplicación
-en Python.
+El proyecto será desarrollado progresivamente, comenzando por el análisis y diseño del sistema para posteriormente implementar una aplicación en Python utilizando los principios de Programación Orientada a Objetos.
