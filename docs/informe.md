@@ -22,7 +22,7 @@
    
    Responsabilidad: Registrar el tiempo exacto que un empleado dedica a un proyecto.
 
-# Diagrama UML Inicial
+## Diagrama UML Inicial
 ```mermaid
 classDiagram
     class Empleado {
@@ -58,3 +58,31 @@ classDiagram
     Empleado "1" *-- "0..*" RegistroTiempo : posee
     Empleado "0..*" -- "0..*" Proyecto : asignado_a
 ```
+
+## Uso de Inteligencial Artificial
+1) Primer Prompt: "Actúa como un arquitecto de software experto en POO. Diseña un diagrama de clases UML para la empresa EcoTech Solutions que incluya las clases Empleado, Departamento, Proyecto y RegistroTiempo. Especifica visibilidad (+/-), tipos de datos y multiplicidad. Devuelve el resultado en formato gráfico o Mermaid."
+
+2) Segundo Prompt: "Revisa el siguiente diseño UML de EcoTech Solutions. Evalúa si cumple con el principio de Responsabilidad Única, si maneja adecuadamente el encapsulamiento para datos sensibles y qué fallas de acoplamiento ves."
+
+
+
+### Matriz de Comparación: Diseño Manual vs. Sugerencias de la IA
+
+| Criterio / Elemento | Diseño Manual | Propuesta de la IA | Análisis Crítico y Decisión Tomada |
+| :--- | :--- | :--- | :--- |
+| **Encapsulamiento de Salario** | Atributo `salario` privado (`-`). | Sugirió hacer privados todos los atributos y agregar getters/setters. | **Aceptado:** Se adoptó la sugerencia de la IA para reforzar la seguridad de todos los atributos sensibles. |
+| **Arquitectura de Control** | Clases bien definidas y separadas por responsabilidad. | Creó una clase monolítica gigante llamada `GestorSistema`. | **Descartado:** La propuesta de la IA rompe el principio de Responsabilidad Única (SRP) y genera alto acoplamiento. |
+| **Relación Registro-Empleado** | Composición entre `Empleado` y `RegistroTiempo`. | Asociación simple entre `Proyecto` y `RegistroTiempo`. | **Modificado:** Se mantuvo la composición con `Empleado` para garantizar que un registro no exista huérfano sin un trabajador asignado. |
+| **Identificadores Únicos** | IDs enteros autoincrementables simples (`int`). | Sugirió usar identificadores globales aleatorios tipo UUID. | **Descartado:** Para el alcance actual del proyecto, los IDs enteros son más simples y funcionales. |
+
+
+
+### Matriz de Trazabilidad de Requerimientos
+
+| Requerimiento del Caso | Clase Responsable | Atributos Asociados | Métodos / Operaciones Asociadas |
+| :--- | :--- | :--- | :--- |
+| **R1: Registro de Empleados** | `Empleado` | `- id: int`<br>`+ nombre: str`<br>`+ correo: str` | `+ __init__()`<br>`+ obtener_info()` |
+| **R2: Asignación a Departamento** | `Departamento`<br>`Empleado` | `+ nombre: str`<br>`+ empleados: list` | `+ agregar_empleado()` |
+| **R3: Trazabilidad de Horas** | `RegistroTiempo`<br>`Empleado` | `+ fecha: str`<br>`+ horas: float`<br>`+ descripcion: str` | `+ registrar_horas()` |
+| **R4: Seguridad de Datos Sensibles** | `Empleado` | `- salario: float` | `+ obtener_salario()`<br>`+ modificar_salario()` |
+| **R5: Validación de Entradas** | `RegistroTiempo` | `+ horas: float` | `+ validar_horas()` |
