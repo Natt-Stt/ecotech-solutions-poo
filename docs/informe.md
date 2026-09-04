@@ -31,66 +31,125 @@ ____________________________________________
 
 Para solucionar integralmente el caso de EcoTech Solutions, se han identificado y jerarquizado 6 entidades del sistema:
 
-1. **`Empleado` (Entidad Principal):** Representa al talento humano.
-   - *Atributos:* 
-   `id: int`, 
-   `nombre: str`, 
-   `correo: str`, 
-   `_salario: float` (privado), 
-   `_rut: str` (privado),
-   `direccion: str`, 
-   `nro_telefono: int`,
-   `fechaInicioContrato: int`.
+1. **`Empleado` (Entidad Principal):** Representa al talento humano de la empresa.
+   - *Atributos:* `-id: int` (privado), `+nombre: string`, `+direccion: string`, `+nro_telefono: string`, `+mail: string`, `+fechaInicioContrato: date`, `-salario: float` (privado).
+   - *Responsabilidad:* Almacenar la información contractual y de contacto del colaborador, resguardando datos sensibles como el salario.
 
-   - *Responsabilidad:* Mantener los datos personales del trabajador de forma segura.
+   - *Métodos:* `+asignarDepartamento(depto)`.
 
 
-2. **`Departamento` (Entidad Organizacional):** Agrupa áreas de la empresa.
-   - *Atributos:* 
-   `id_depto: int`, 
-   `nombre: str`, 
-   `gerente: Empleado`.
+2. **`Departamento` (Entidad Organizacional):** Agrupa áreas funcionales de la empresa.
+   - *Atributos:* `+idDepto: int`, `+nombre: string`, `+gerenteAsociado: string`.
+   - *Responsabilidad:* Administrar la estructura organizativa y gestionar la asignación y reasignación del personal.
 
-   - *Responsabilidad:* Organizar estructuralmente a los empleados sin destruir sus registros si la área cierra.
+   - *Métodos:* `+agregarEmpleado(emp)`, `+crearDepto()`, `+editarDepto()`, `+buscarDepto()`, `+eliminarDepto()`, `+reasignarEmpleado()`.
 
-3. **`Proyecto` (Entidad Operativa):** Proyectos sostenibles de la empresa.
-   - *Atributos:* 
-   `id_proyecto: int`, 
-   `nombre: str`, 
-   `descripción: str`, 
-   `fecha_inicio: str`.
 
-   - *Responsabilidad:* Controlar las iniciativas activas de la organización.
+3. **`Proyecto` (Entidad Operativa):** Representa las iniciativas y desarrollos sostenibles.
+   - *Atributos:* `+idProyecto: int`, `+nombre: string`, `+descripcion: string`, `+fechaInicio: date`.
+   - *Responsabilidad:* Gestionar el ciclo de vida de los proyectos y la incorporación o desvinculación de colaboradores asignados.
 
-4. **`RegistroTiempo` (Entidad Transaccional):** Trazabilidad del trabajo.
-   - *Atributos:* 
-   `id_registro: int`, 
-   `fecha: str`, 
-   `horas: float`, 
-   `descripcion: str`.
+   - *Métodos:* `+crearProyecto()`, `+editarProyecto()`, `+eliminarProyecto()`, `+asignarEmpleado()`, `+desasignarEmpleado()`.
 
-   - *Responsabilidad:* Garantizar la imputación exacta de horas trabajadas por empleado y por proyecto.
+4. **`RegistroTiempo` (Entidad Transaccional):** Control de tiempos de trabajo.
+   - *Atributos:* `+idRegistro: int`, `+fecha: date`, `+horas: float`, `+descripcion: string`.
+   - *Responsabilidad:* Registrar e imputar las horas trabajadas por cada colaborador en proyectos específicos con validación de consistencia.
 
-5. **`Usuario` (Entidad de Seguridad / POO Seguro):** Manejo de accesos e identidad.
-   - *Atributos:* 
-   `id_usuario: int`, 
-   `username: str`, 
-   `_password_hash: str`, 
-   `rol: str`.
+   - *Métodos:* `+validarHoras(): bool`.
 
-   - *Responsabilidad:* Autenticar usuarios, validar permisos e impedir accesos no autorizados.
+5. **`Usuario` (Entidad de Seguridad / POO Seguro):** Gestión de accesos e identidad.
+   - *Atributos:* `+idUsuario: int`, `+username: string`, `-passwordHash: string` (privado), `+rol: string`.
+   - *Responsabilidad:* Garantizar la autenticación segura y la autorización basada en roles.
 
-6. **`Informe` (Entidad de Salida / Reportabilidad):** Generación de reportes.
-   - *Atributos:* 
-   `id_informe: int`, 
-   `tipo_informe: str`, 
-   `fecha_generacion: str`, 
-   `formato: str`.
+   - *Métodos:* `+autenticar(pass): bool`, `+verificarPermiso(módulo): bool`.
 
-   - *Responsabilidad:* Sintetizar la información transaccional y exportarla a PDF o Excel.
+6. **`Informe` (Entidad de Salida / Reportabilidad):** Generación de reportes institucionales.
+   - *Atributos:* `+idInforme: int`, `+tipoInforme: String`, `+fechaGeneracion: String`.
+   - *Responsabilidad:* Procesar los datos transaccionales y consolidados para exportación segura.
+
+   - *Métodos:* `+exportarPDF(): bool`, `+exportarExcel(): bool`.
 
 ### 2.2 Vinculación de Problemas con Fundamentos de POO
 
-* **Encapsulamiento y POO Seguro:** El atributo `salario` en `Empleado` y `password_hash` en `Usuario` se declaran **privados** (`-` o `_`). Esto evita modificaciones indebidas desde afuera sin pasar por métodos de validación, cumpliendo las normativas de privacidad.
-* **Abstracción:** Se descartan atributos irrelevantes del empleado (color de pelo, opinión política) y se conservan únicamente los elementos relevantes para la operación de EcoTech.
-* **Composición vs Agregación:** Se diferencia técnicamente la relación entre un `Departamento` y un `Empleado` (Agregación: el empleado sobrevive si el departamento se borra) frente a la de un `Empleado` y sus `RegistroTiempo` (Composición: las horas no existen si el empleado se elimina).
+* **Encapsulamiento y POO Seguro:** El salario (`-salario`) en `Empleado` y el hash de clave (`-passwordHash`) en `Usuario` se definen con visibilidad privada (`-`). Esto previene el acceso no autorizado y la manipulación directa de datos financieros y credenciales.
+
+* **Abstracción:** Se encapsulan las operaciones del ciclo de vida (CRUD) dentro de las entidades correspondientes (`Departamento` y `Proyecto`), ocultando la complejidad del manejo interno de datos.
+
+* **Relaciones de Agregación y Composición:**
+  - *Agregación (`Departamento` o-- `Empleado`):* La eliminación de un departamento no destruye los registros de los empleados asociados.
+  - *Composición (`Empleado` *-- `RegistroTiempo` y `Proyecto` *-- `RegistroTiempo`):* Las horas registradas dependen directamente de la existencia del empleado y del proyecto al que se imputan.
+
+
+## 3. Sección 2: Diseño del Sistema (Modelo Estructural UML)
+
+### 3.1 Diagrama de Clases UML Definitivo (Código Mermaid)
+
+```mermaid
+classDiagram
+    class Empleado {
+        -int id
+        +string nombre
+        +string direccion
+        +string nro_telefono
+        +string mail
+        +date fechaInicioContrato
+        -float salario
+        +asignarDepartamento(depto)
+    }
+
+    class Departamento {
+        +int idDepto
+        +string nombre
+        +string gerenteAsociado
+        +agregarEmpleado(emp)
+        +crearDepto
+        +editarDepto
+        +buscarDepto
+        +eliminarDepto
+        +reasignarEmpleado
+    }
+
+    class Proyecto {
+        +int idProyecto
+        +string nombre
+        +string descripcion
+        +date fechaInicio
+        +crearProyecto
+        +editarProyecto
+        +eliminarProyecto
+        +asignarEmpleado
+        +desasignarEmpleado
+    }
+
+    class RegistroTiempo {
+        +int idRegistro
+        +date fecha
+        +float horas
+        +string descripcion
+        +validarHoras() bool
+    }
+
+    class Usuario {
+        +int idUsuario
+        +string username
+        -string passwordHash
+        +string rol
+        +autenticar(pass) bool
+        +verificarPermiso(módulo) bool
+    }
+
+    class Informe {
+        +int idInforme
+        +String tipoInforme
+        +String fechaGeneracion
+        +exportarPDF() bool
+        +exportarExcel() bool
+    }
+
+    Departamento "1" o-- "0..*" Empleado : agrupa (Agregación)
+    Empleado "1" *-- "0..*" RegistroTiempo : posee (Composición)
+    Proyecto "1" *-- "0..*" RegistroTiempo : imputa (Composición)
+    Empleado "0..*" -- "0..*" Proyecto : asignado_a (Asociación)
+    Empleado "1" -- "1" Usuario : posee_cuenta (Asociación 1:1)
+    Informe ..> RegistroTiempo : procesa (Dependencia)
+    Informe ..> Empleado : procesa (Dependencia)
