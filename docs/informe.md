@@ -80,12 +80,12 @@ Para solucionar integralmente el caso de EcoTech Solutions, se han identificado 
   - *Composición (`Empleado` *-- `RegistroTiempo` y `Proyecto` *-- `RegistroTiempo`):* Las horas registradas dependen directamente de la existencia del empleado y del proyecto al que se imputan.
 
 
-## 3. Sección 2: Diseño del Sistema (Modelo Estructural UML)
 
-### 3.1 Diagrama de Clases UML Definitivo (Código Mermaid)
+## 3. Diagrama de Clases UML en Código Mermaid
 
 ```mermaid
 classDiagram
+
     class Empleado {
         -int id
         +string nombre
@@ -140,8 +140,8 @@ classDiagram
 
     class Informe {
         +int idInforme
-        +String tipoInforme
-        +String fechaGeneracion
+        +string tipoInforme
+        +string fechaGeneracion
         +exportarPDF() bool
         +exportarExcel() bool
     }
@@ -153,3 +153,21 @@ classDiagram
     Empleado "1" -- "1" Usuario : posee_cuenta (Asociación 1:1)
     Informe ..> RegistroTiempo : procesa (Dependencia)
     Informe ..> Empleado : procesa (Dependencia)
+```
+![Diagrama UML](../docs/img/DIAGRAMAUML.jpg)
+
+
+
+## 4. Uso de Herramientas de IA
+
+### 4.1 Prompts Utilizados e Iteraciones
+- Prompt 1 (Generación Inicial):
+
+"Actúa como un arquitecto de software experto en POO Seguro. Genera un diagrama de clases UML inicial para EcoTech Solutions con las clases Empleado, Departamento, Proyecto y RegistroTiempo. Incluye visibilidad, tipos de datos y multiplicidad."
+
+- Prompt 2 (Inclusión de Seguridad y Refinamiento de Métodos Operativos):
+
+"Revisa el diagrama anterior. Aplica principios de POO Seguro incorporando las entidades Usuario (autenticación) e Informe (exportación). Además, expande las clases Departamento y Proyecto agregando métodos CRUD y de asignación de personal para solucionar la desorganización operativa del caso."
+
+
+### 4.2 Matriz de Comparación y Evaluación Crítica
