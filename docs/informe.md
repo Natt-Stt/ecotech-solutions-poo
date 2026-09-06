@@ -171,3 +171,31 @@ classDiagram
 
 
 ### 4.2 Matriz de Comparación y Evaluación Crítica
+
+| N.º | Criterio / elemento | Diseño manual definitivo | Propuesta de IA generativa | Evaluación crítica y decisión |
+|---:|---|---|---|---|
+| 1 | **Manejo de autenticación** | Entidad `Usuario` independiente, con `passwordHash` privado y control de acceso mediante roles (`rol`). | Credenciales (`username` y `password`) dentro de `Empleado`. | **Descartado:** Viola el principio de responsabilidad única (SRP). |
+| 2 | **Datos de empleado** | Incluye datos de contacto y contrato: `direccion`, `nro_telefono`, `mail` y `fechaInicioContrato`. | Solo incluye atributos genéricos como `nombre` y `correo`. | **Ajuste manual:** Se incorporó información administrativa completa. |
+| 3 | **Operaciones CRUD** | `Departamento` y `Proyecto` gestionan operaciones de crear, editar, eliminar y asignar empleados. | Clases pasivas, sin métodos de gestión. | **Ajuste manual:** Se aumentó la cohesión y se evitó dispersar la lógica. |
+| 4 | **Generación de informes** | Clase `Informe` con dependencias hacia `RegistroTiempo` y `Empleado`. | Funciones globales o integradas en clases operativas. | **Modificado:** Se centralizó la exportación a PDF y Excel, reduciendo el acoplamiento. |
+
+
+## 5. Mejoras Aplicadas y Principios de Diseño
+
+### 5.1 Mejoras Aplicadas y Principios de Diseño
+- esponsabilidad Única (SRP): Usuario gestiona la seguridad, Informe la   salida de reportes, Empleado resguarda datos del trabajador y Proyecto/Departamento administran sus respectivos ciclos de vida.
+
+- Alta Cohesión: Todas las operaciones agrupadas en Departamento (crearDepto, reasignarEmpleado, etc.) y Proyecto pertenecen estrictamente al dominio de cada entidad.
+
+- Encapsulamiento y Bajo Acoplamiento: Los datos sensibles (salario, passwordHash) se mantienen ocultos y protegidos bajo visibilidad privada (-).
+
+### 5.2 Matriz de Trazabilidad de Requerimientos
+
+| Requerimiento del Caso | Clase Responsable | Atributos Asociados | Métodos / Operaciones Asociadas |
+| :--- | :--- | :--- | :--- |
+| **R1: Registro y Ficha de Empleados** | `Empleado` | `- id: int`<br>`+ nombre: string`<br>`+ direccion: string`<br>`+ nro_telefono: string`<br>`+ mail: string`<br>`+ fechaInicioContrato: date` | `+ asignarDepartamento()` |
+| **R2: Gestión de Departamentos y Reasignación** | `Departamento` | `+ idDepto: int`<br>`+ nombre: string`<br>`+ gerenteAsociado: string` | `+ agregarEmpleado()`<br>`+ crearDepto()`<br>`+ editarDepto()`<br>`+ buscarDepto()`<br>`+ eliminarDepto()`<br>`+ reasignarEmpleado()` |
+| **R3: Gestión de Proyectos e Integrantes** | `Proyecto` | `+ idProyecto: int`<br>`+ nombre: string`<br>`+ descripcion: string`<br>`+ fechaInicio: date` | `+ crearProyecto()`<br>`+ editarProyecto()`<br>`+ eliminarProyecto()`<br>`+ asignarEmpleado()`<br>`+ desasignarEmpleado()` |
+| **R4: Control y Trazabilidad de Horas** | `RegistroTiempo` | `+ idRegistro: int`<br>`+ fecha: date`<br>`+ horas: float`<br>`+ descripcion: string` | `+ validarHoras(): bool` |
+| **R5: Seguridad, Autenticación y Datos Sensibles (POO Seguro)** | `Empleado`<br>`Usuario` | `- salario: float`<br>`+ idUsuario: int`<br>`+ username: string`<br>`- passwordHash: string`<br>`+ rol: string` | `+ autenticar()`<br>`+ verificarPermiso()` |
+| **R6: Generación y Exportación de Reportes** | `Informe` | `+ idInforme: int`<br>`+ tipoInforme: String`<br>`+ fechaGeneracion: String` | `+ exportarPDF(): bool`<br>`+ exportarExcel(): bool` |
