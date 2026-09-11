@@ -3,6 +3,7 @@ from empleado import Empleado
 from administrador import Administrador
 from departamento import Departamento
 from proyecto import Proyecto
+from usuario import Usuario
 
 empleado_1 = Empleado(
     1,
@@ -249,4 +250,21 @@ except TypeError as error:
     print("Error:", error)
 
 print("¿Las horas son válidas?", registro_1.validar_horas())
+usuario_1 = Usuario(
+    1,
+    "natalia",
+    "EcoTech123",
+    empleado_1
+)
+print(usuario_1.nombre_usuario)
+print(usuario_1.empleado.nombre)
 
+try:
+    usuario_invalido = Usuario(
+        2,
+        "carlos",
+        "EcoTech456",
+        "Carlos"
+    )
+except TypeError as error:
+    print("Error:", error)

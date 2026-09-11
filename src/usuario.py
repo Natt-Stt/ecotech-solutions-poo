@@ -1,3 +1,4 @@
+import hashlib
 from empleado import Empleado
 
 
@@ -12,4 +13,11 @@ class Usuario:
         self.__id = id_usuario
         self.nombre_usuario = nombre_usuario
         self.__contrasena = contrasena
-        self.empleado = empleado
+
+        if isinstance(empleado, Empleado):
+            self.empleado = empleado
+        else:
+            raise TypeError("El usuario debe estar asociado a un empleado")
+
+    def _generar_hash(self, contrasena):
+        return hashlib.sha256(contrasena.encode()).hexdigest()
