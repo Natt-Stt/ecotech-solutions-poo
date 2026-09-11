@@ -20,5 +20,18 @@ class RegistroTiempo:
         else:
             raise ValueError("Las horas deben ser mayores que cero")
 
-        self.empleado = empleado
-        self.proyecto = proyecto
+        if isinstance(empleado, Empleado):
+            self.empleado = empleado
+        else:
+            raise TypeError("El empleado debe ser un objeto Empleado")
+
+        if isinstance(proyecto, Proyecto):
+            self.proyecto = proyecto
+        else:
+            raise TypeError("El proyecto debe ser un objeto Proyecto")
+
+    def validar_horas(self):
+        if self.horas > 0:
+            return True
+        else:
+            return False

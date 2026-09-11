@@ -214,3 +214,39 @@ print(registro_1.fecha)
 print(registro_1.horas)
 print(registro_1.empleado.nombre)
 print(registro_1.proyecto.nombre)
+
+try:
+    registro_invalido = RegistroTiempo(
+        2,
+        date(2026, 9, 10),
+        -5.0,
+        empleado_1,
+        proyecto_1
+    )
+except ValueError as error:
+    print("Error:", error)
+
+try:
+    registro_invalido = RegistroTiempo(
+        2,
+        date(2026, 9, 10),
+        4.0,
+        "Natalia",
+        proyecto_1
+    )
+except TypeError as error:
+    print("Error:", error)
+
+try:
+    registro_invalido = RegistroTiempo(
+        3,
+        date(2026, 9, 10),
+        4.0,
+        empleado_1,
+        "Plataforma Web EcoTech"
+    )
+except TypeError as error:
+    print("Error:", error)
+
+print("¿Las horas son válidas?", registro_1.validar_horas())
+
