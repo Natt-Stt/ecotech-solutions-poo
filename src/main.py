@@ -268,3 +268,14 @@ try:
     )
 except TypeError as error:
     print("Error:", error)
+print(usuario_1.nombre_usuario)
+print(usuario_1.empleado.nombre)
+
+print(
+    "Contraseña correcta:",
+    usuario_1.verificar_contrasena("EcoTech123")
+)
+print(
+    "Contraseña incorrecta:",
+    usuario_1.verificar_contrasena("123456")
+)

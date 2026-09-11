@@ -19,6 +19,7 @@ class Empleado:
         self.mail = mail
         self.fecha_inicio_contrato = fecha_inicio_contrato
         self.__salario = salario
+        self.usuario = None
 
     @property
     def id(self):
@@ -29,3 +30,9 @@ class Empleado:
         self.__salario = nuevo_salario
      else:
         raise ValueError("El salario no puede ser negativo")
+
+    def _asignar_usuario(self, usuario):
+        if self.usuario is None:
+           self.usuario = usuario
+        else:
+           raise ValueError("El empleado ya tiene una cuenta de usuario")

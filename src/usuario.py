@@ -12,7 +12,7 @@ class Usuario:
     ):
         self.__id = id_usuario
         self.nombre_usuario = nombre_usuario
-        self.__contrasena = contrasena
+        self.__contrasena = self._generar_hash(contrasena)
 
         if isinstance(empleado, Empleado):
             self.empleado = empleado
@@ -21,3 +21,7 @@ class Usuario:
 
     def _generar_hash(self, contrasena):
         return hashlib.sha256(contrasena.encode()).hexdigest()
+
+    def verificar_contrasena(self, contrasena):
+        hash_ingresado = self._generar_hash(contrasena)
+        return hash_ingresado == self.__contrasena
