@@ -4,6 +4,7 @@ from administrador import Administrador
 from departamento import Departamento
 from proyecto import Proyecto
 from usuario import Usuario
+from informe import Informe
 
 empleado_1 = Empleado(
     1,
@@ -290,3 +291,64 @@ try:
     )
 except ValueError as error:
     print("Error:", error)
+
+informe_1 = Informe(
+    1,
+    "Informe de horas septiembre"
+)
+
+print(informe_1.titulo)
+print(informe_1.registros)
+
+informe_1.agregar_registro(registro_1)
+
+print("Registros del informe:")
+for registro in informe_1.registros:
+    print(registro.fecha, registro.horas)
+
+try:
+    informe_1.agregar_registro("Registro incorrecto")
+except TypeError as error:
+    print("Error:", error)
+registro_1 = RegistroTiempo(
+    1,
+    date(2026, 9, 10),
+    4.0,
+    empleado_1,
+    proyecto_1
+)
+
+registro_2 = RegistroTiempo(
+    2,
+    date(2026, 9, 11),
+    6.0,
+    empleado_1,
+    proyecto_1
+)
+
+informe_1 = Informe(
+    1,
+    "Informe de horas septiembre"
+)
+
+try:
+    informe_1.agregar_registro(registro_1)
+    informe_1.agregar_registro(registro_2)
+
+except ValueError as error:
+    print("Error:", error)
+
+resumen = informe_1.generar_resumen()
+
+print("Resumen del informe:")
+
+for linea in resumen:
+    print(linea)
+
+total_horas = informe_1.calcular_total_horas()
+
+print("Total de horas trabajadas:", total_horas)
+
+horas_natalia = informe_1.calcular_horas_empleado(empleado_1)
+
+print("Horas trabajadas por Natalia:", horas_natalia)
