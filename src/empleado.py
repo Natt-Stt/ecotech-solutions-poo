@@ -31,6 +31,8 @@ class Empleado:
      else:
         raise ValueError("El salario no puede ser negativo")
 
+     
+# Método para no asignar un usuario a uno existente
     def _asignar_usuario(self, usuario):
         if self.usuario is None:
            self.usuario = usuario

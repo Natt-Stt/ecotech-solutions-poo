@@ -15,7 +15,8 @@ class Usuario:
         self.__contrasena = self._generar_hash(contrasena)
 
         if isinstance(empleado, Empleado):
-            self.empleado = empleado
+           self.empleado = empleado
+           empleado._asignar_usuario(self)
         else:
             raise TypeError("El usuario debe estar asociado a un empleado")
 

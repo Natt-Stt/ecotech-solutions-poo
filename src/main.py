@@ -279,3 +279,14 @@ print(
     "Contraseña incorrecta:",
     usuario_1.verificar_contrasena("123456")
 )
+print("Usuario del empleado:", empleado_1.usuario.nombre_usuario)
+
+try:
+    usuario_2 = Usuario(
+        2,
+        "natalia2",
+        "OtraClave789",
+        empleado_1
+    )
+except ValueError as error:
+    print("Error:", error)
