@@ -352,3 +352,7 @@ print("Total de horas trabajadas:", total_horas)
 horas_natalia = informe_1.calcular_horas_empleado(empleado_1)
 
 print("Horas trabajadas por Natalia:", horas_natalia)
+
+horas_proyecto = informe_1.calcular_horas_proyecto(proyecto_1)
+
+print("Horas registradas en el proyecto:", horas_proyecto)
