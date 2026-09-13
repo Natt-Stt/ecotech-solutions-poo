@@ -548,3 +548,5 @@ La implementación fue probada progresivamente mediante casos válidos y casos d
 - cálculo de horas por proyecto.
 
 Las pruebas permitieron detectar y ajustar diferencias entre el diseño conceptual inicial y el comportamiento que realmente se necesitaba implementar.
+
+![Diagrama UML](../docs/img/DiagramaUMLactualizado.png)
