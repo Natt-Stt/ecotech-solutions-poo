@@ -1,358 +1,48 @@
-from datetime import date
-from empleado import Empleado
-from administrador import Administrador
-from departamento import Departamento
-from proyecto import Proyecto
-from usuario import Usuario
-from informe import Informe
+def mostrar_menu():
+    print("\n========================================")
+    print("          ECOTECH SOLUTIONS")
+    print("========================================")
+    print("1. Registrar empleado")
+    print("2. Registrar proyecto")
+    print("3. Asignar empleado a proyecto")
+    print("4. Registrar horas")
+    print("5. Consultar empleados")
+    print("6. Generar informe")
+    print("0. Salir")
+    print("========================================")
 
-empleado_1 = Empleado(
-    1,
-    "Natalia",
-    "Viña del Mar",
-    "912345678",
-    "natalia@ecotech.cl",
-    date(2026, 3, 1),
-    800000.0
-)
 
-print(empleado_1.nombre)
-print(empleado_1.direccion)
-print(empleado_1.mail)
-print(empleado_1.fecha_inicio_contrato)
+def main():
+    while True:
+        mostrar_menu()
 
-administrador_1 = Administrador(
-    2,
-    "Carlos",
-    "Valparaíso",
-    "987654321",
-    "carlos@ecotech.cl",
-    date(2026, 3, 1),
-    900000
-)
+        opcion = input("Seleccione una opción: ")
 
-print(administrador_1.nombre)
-print(administrador_1.mail)
-print(administrador_1.fecha_inicio_contrato)
+        if opcion == "1":
+            print("Opción: Registrar empleado")
 
-departamento_1 = Departamento(
-    1,
-    "Recursos Humanos",
-    "Gestiona los procesos relacionados con los empleados"
-)
+        elif opcion == "2":
+            print("Opción: Registrar proyecto")
 
-print(departamento_1.nombre)
-print(departamento_1.descripcion)
-print(departamento_1.empleados)
+        elif opcion == "3":
+            print("Opción: Asignar empleado a proyecto")
 
-departamento_1.agregar_empleado(empleado_1)
-departamento_1.agregar_empleado(administrador_1)
+        elif opcion == "4":
+            print("Opción: Registrar horas")
 
-print(departamento_1.empleados[0].nombre)
-print(departamento_1.empleados[1].nombre)
+        elif opcion == "5":
+            print("Opción: Consultar empleados")
 
-try:
-    administrador_1.editar_salario(empleado_1, -100000)
-except ValueError as error:
-    print("Error:", error)
+        elif opcion == "6":
+            print("Opción: Generar informe")
 
-try:
-    departamento_1.agregar_empleado("Carlos")
-except TypeError as error:
-    print("Error:", error)
+        elif opcion == "0":
+            print("Saliendo del sistema...")
+            break
 
-try:
-    departamento_1.agregar_empleado(empleado_1)
-except ValueError as error:
-    print("Error:", error)
+        else:
+            print("Opción no válida. Intente nuevamente.")
 
-departamento_1.eliminar_empleado(empleado_1)
 
-print(departamento_1.empleados)
-print(departamento_1.empleados[0].nombre)
-
-try:
-    departamento_1.eliminar_empleado(empleado_1)
-except ValueError as error:
-    print("Error:", error)
-
-print(empleado_1.id)
-print(administrador_1.id)
-
-departamento_1.agregar_empleado(empleado_1)
-empleado_encontrado = departamento_1.buscar_empleado(1)
-
-if empleado_encontrado is not None:
-    print("Empleado encontrado:", empleado_encontrado.nombre)
-else:
-    print("Empleado no encontrado")
-
-empleado_encontrado = departamento_1.buscar_empleado(99)
-
-if empleado_encontrado is not None:
-    print("Empleado encontrado:", empleado_encontrado.nombre)
-else:
-    print("Empleado no encontrado")
-
-empleados_departamento = departamento_1.listar_empleados()
-
-for empleado in empleados_departamento:
-    print(empleado.id, empleado.nombre)
-
-empleado_2 = Empleado(
-    3,
-    "Andrea",
-    "Quilpué",
-    "923456789",
-    "andrea@ecotech.cl",
-    date(2026, 4, 1),
-    750000
-)
-
-administrador_1.agregar_empleado_departamento(
-    departamento_1,
-    empleado_2
-)
-for empleado in departamento_1.listar_empleados():
-    print(empleado.id, empleado.nombre)
-
-try:
-    administrador_1.agregar_empleado_departamento(
-        departamento_1,
-        empleado_2
-    )
-except ValueError as error:
-    print("Error:", error)
-
-departamento_2 = Departamento(
-    2,
-    "Tecnología",
-    "Gestiona los sistemas y recursos tecnológicos"
-)
-print(departamento_2.nombre)
-
-administrador_1.reasignar_empleado(
-    empleado_1,
-    departamento_1,
-    departamento_2
-)
-print("Recursos Humanos:")
-
-for empleado in departamento_1.listar_empleados():
-    print(empleado.id, empleado.nombre)
-
-print("Tecnología:")
-
-for empleado in departamento_2.listar_empleados():
-    print(empleado.id, empleado.nombre)
-
-proyecto_1 = Proyecto(
-    1,
-    "Plataforma Web EcoTech",
-    "Desarrollo de una nueva plataforma web para EcoTech Solutions"
-)
-print(proyecto_1.nombre)
-print(proyecto_1.descripcion)
-print(proyecto_1.empleados)
-
-proyecto_1.asignar_empleado(empleado_1)
-
-print("Empleados del proyecto:")
-for empleado in proyecto_1.empleados:
-    print(empleado.id, empleado.nombre)
-
-try:
-    proyecto_1.asignar_empleado("Carlos")
-except TypeError as error:
-    print("Error:", error)
-
-try:
-    proyecto_1.asignar_empleado(empleado_1)
-except ValueError as error:
-    print("Error:", error)
-
-proyecto_1.desasignar_empleado(empleado_1)
-
-print("Empleados del proyecto después de desasignar:")
-for empleado in proyecto_1.empleados:
-    print(empleado.id, empleado.nombre)
-
-print(proyecto_1.empleados)
-
-try:
-    proyecto_1.desasignar_empleado(empleado_1)
-except ValueError as error:
-    print("Error:", error)
-
-proyecto_1.asignar_empleado(empleado_1)
-empleado_encontrado = proyecto_1.buscar_empleado(1)
-
-if empleado_encontrado is not None:
-    print("Empleado encontrado:", empleado_encontrado.nombre)
-else:
-    print("Empleado no encontrado")
-
-empleado_encontrado = proyecto_1.buscar_empleado(99)
-
-if empleado_encontrado is not None:
-    print("Empleado encontrado:", empleado_encontrado.nombre)
-else:
-    print("Empleado no encontrado")
-
-print("Empleados del proyecto:")
-for empleado in proyecto_1.listar_empleados():
-    print(empleado.id, empleado.nombre)
-
-from registro_tiempo import RegistroTiempo
-registro_1 = RegistroTiempo(
-    1,
-    date(2026, 9, 10),
-    4.0,
-    empleado_1,
-    proyecto_1
-)
-
-print(registro_1.fecha)
-print(registro_1.horas)
-print(registro_1.empleado.nombre)
-print(registro_1.proyecto.nombre)
-
-try:
-    registro_invalido = RegistroTiempo(
-        2,
-        date(2026, 9, 10),
-        -5.0,
-        empleado_1,
-        proyecto_1
-    )
-except ValueError as error:
-    print("Error:", error)
-
-try:
-    registro_invalido = RegistroTiempo(
-        2,
-        date(2026, 9, 10),
-        4.0,
-        "Natalia",
-        proyecto_1
-    )
-except TypeError as error:
-    print("Error:", error)
-
-try:
-    registro_invalido = RegistroTiempo(
-        3,
-        date(2026, 9, 10),
-        4.0,
-        empleado_1,
-        "Plataforma Web EcoTech"
-    )
-except TypeError as error:
-    print("Error:", error)
-
-print("¿Las horas son válidas?", registro_1.validar_horas())
-usuario_1 = Usuario(
-    1,
-    "natalia",
-    "EcoTech123",
-    empleado_1
-)
-print(usuario_1.nombre_usuario)
-print(usuario_1.empleado.nombre)
-
-try:
-    usuario_invalido = Usuario(
-        2,
-        "carlos",
-        "EcoTech456",
-        "Carlos"
-    )
-except TypeError as error:
-    print("Error:", error)
-print(usuario_1.nombre_usuario)
-print(usuario_1.empleado.nombre)
-
-print(
-    "Contraseña correcta:",
-    usuario_1.verificar_contrasena("EcoTech123")
-)
-print(
-    "Contraseña incorrecta:",
-    usuario_1.verificar_contrasena("123456")
-)
-print("Usuario del empleado:", empleado_1.usuario.nombre_usuario)
-
-try:
-    usuario_2 = Usuario(
-        2,
-        "natalia2",
-        "OtraClave789",
-        empleado_1
-    )
-except ValueError as error:
-    print("Error:", error)
-
-informe_1 = Informe(
-    1,
-    "Informe de horas septiembre"
-)
-
-print(informe_1.titulo)
-print(informe_1.registros)
-
-informe_1.agregar_registro(registro_1)
-
-print("Registros del informe:")
-for registro in informe_1.registros:
-    print(registro.fecha, registro.horas)
-
-try:
-    informe_1.agregar_registro("Registro incorrecto")
-except TypeError as error:
-    print("Error:", error)
-registro_1 = RegistroTiempo(
-    1,
-    date(2026, 9, 10),
-    4.0,
-    empleado_1,
-    proyecto_1
-)
-
-registro_2 = RegistroTiempo(
-    2,
-    date(2026, 9, 11),
-    6.0,
-    empleado_1,
-    proyecto_1
-)
-
-informe_1 = Informe(
-    1,
-    "Informe de horas septiembre"
-)
-
-try:
-    informe_1.agregar_registro(registro_1)
-    informe_1.agregar_registro(registro_2)
-
-except ValueError as error:
-    print("Error:", error)
-
-resumen = informe_1.generar_resumen()
-
-print("Resumen del informe:")
-
-for linea in resumen:
-    print(linea)
-
-total_horas = informe_1.calcular_total_horas()
-
-print("Total de horas trabajadas:", total_horas)
-
-horas_natalia = informe_1.calcular_horas_empleado(empleado_1)
-
-print("Horas trabajadas por Natalia:", horas_natalia)
-
-horas_proyecto = informe_1.calcular_horas_proyecto(proyecto_1)
-
-print("Horas registradas en el proyecto:", horas_proyecto)
+if __name__ == "__main__":
+    main()
