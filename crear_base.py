@@ -36,11 +36,57 @@ CREATE TABLE IF NOT EXISTS empleado (
 """)
 
 
+# Tabla proyecto
 cursor.execute("""
-SELECT name FROM sqlite_master
-WHERE type='table'
+CREATE TABLE IF NOT EXISTS proyecto (
+    id INTEGER PRIMARY KEY,
+    nombre TEXT NOT NULL UNIQUE,
+    descripcion TEXT NOT NULL
+)
 """)
 
-print(cursor.fetchall())
+
+# Tabla empleado_proyecto
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS empleado_proyecto (
+    id_empleado INTEGER NOT NULL,
+    id_proyecto INTEGER NOT NULL,
+    PRIMARY KEY (id_empleado, id_proyecto),
+    FOREIGN KEY (id_empleado)
+        REFERENCES empleado(id),
+    FOREIGN KEY (id_proyecto)
+        REFERENCES proyecto(id)
+)
+""")
+
+
+# Tabla registro_tiempo
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS registro_tiempo (
+    id INTEGER PRIMARY KEY,
+    fecha TEXT NOT NULL,
+    horas REAL NOT NULL CHECK (horas > 0),
+    id_empleado INTEGER NOT NULL,
+    id_proyecto INTEGER NOT NULL,
+    FOREIGN KEY (id_empleado)
+        REFERENCES empleado(id),
+    FOREIGN KEY (id_proyecto)
+        REFERENCES proyecto(id)
+)
+""")
+
+
+# Tabla usuario
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS usuario (
+    id INTEGER PRIMARY KEY,
+    nombre_usuario TEXT NOT NULL UNIQUE,
+    contrasena_hash TEXT NOT NULL,
+    id_empleado INTEGER NOT NULL UNIQUE,
+    FOREIGN KEY (id_empleado)
+        REFERENCES empleado(id)
+)
+""")
+
 conexion.commit()
 conexion.close()
