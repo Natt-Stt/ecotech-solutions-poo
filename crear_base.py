@@ -90,3 +90,23 @@ CREATE TABLE IF NOT EXISTS usuario (
 
 conexion.commit()
 conexion.close()
+
+
+# Agregando columnas faltantes
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS departamento (
+    id INTEGER PRIMARY KEY,
+    nombre TEXT NOT NULL UNIQUE,
+    descripcion TEXT NOT NULL,
+    gerente TEXT
+)
+""")
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS proyecto (
+    id INTEGER PRIMARY KEY,
+    nombre TEXT NOT NULL UNIQUE,
+    descripcion TEXT NOT NULL,
+    fecha_inicio TEXT
+)
+""")
